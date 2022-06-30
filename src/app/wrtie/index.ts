@@ -12,7 +12,7 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
-a *
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,3 +22,28 @@ a *
  * SOFTWARE.
  */
 
+import * as FormData from 'form-data'
+
+export function getWritingDataByObject(data: WritingObject): FormData {
+    const formData = new FormData();
+
+    formData.append('mode', 'bbs_insert');
+    formData.append('bcode', data.target);
+    formData.append('page', '1');
+    formData.append('pid', '');
+    formData.append('notice_chk', '');
+    formData.append('tab_menu_name', data.menu);
+    formData.append('tab_menu', '001');
+    formData.append('subject', data.title);
+    formData.append('key_type[]', '1');
+    formData.append('contents', data.contents);
+
+    return formData;
+}
+
+export interface WritingObject {
+    target: string; // bcode
+    menu: string; // tab_menu_name
+    title: string; // subject
+    contents: string;
+}

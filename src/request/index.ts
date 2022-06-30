@@ -12,7 +12,7 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
-a *
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,3 +22,25 @@ a *
  * SOFTWARE.
  */
 
+interface RootResponse {
+    readonly success: boolean;
+    readonly status: number;
+}
+
+interface ProcessFailed extends RootResponse {
+    readonly success: false;
+}
+
+interface ProcessSuccessValid<T> extends RootResponse {
+    readonly success: true;
+    readonly result: T;
+}
+
+interface ProcessSuccessVoid extends RootResponse {
+    readonly success: true;
+}
+
+export type ProcessResponse<T = void> =
+    Promise<ProcessFailed | ( T extends void ? ProcessSuccessVoid : ProcessSuccessValid<T> )>;
+
+export * from './request-client';

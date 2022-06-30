@@ -12,7 +12,7 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
-a *
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,3 +22,14 @@ a *
  * SOFTWARE.
  */
 
+import {Cookie, CookieJar} from "tough-cookie";
+
+export namespace CookiesUtil {
+    export function setAuthCookies(cookieJar: CookieJar) {
+        cookieJar.setCookieSync(generateCookieString('LOGIN_YN', 'Y'), '/')
+    }
+
+    export function generateCookieString(key: string, value: string, path: string = '/') {
+        return `${key}=${value}; path=${path};`;
+    }
+}

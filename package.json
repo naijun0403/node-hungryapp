@@ -8,5 +8,14 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@types/tough-cookie": "^4.0.2",
+    "axios": "^0.27.2",
+    "axios-cookiejar-support": "^4.0.2",
+    "tough-cookie": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.40"
+  }
 }
