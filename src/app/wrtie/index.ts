@@ -35,7 +35,6 @@ export function getWritingDataByObject(data: WritingObject): FormData {
     formData.append('tab_menu_name', data.menu);
     formData.append('tab_menu', '001');
     formData.append('subject', data.title);
-    formData.append('key_type[]', '1');
     formData.append('contents', data.contents);
 
     return formData;

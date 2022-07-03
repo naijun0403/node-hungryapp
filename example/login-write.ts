@@ -22,26 +22,25 @@
  * SOFTWARE.
  */
 
-interface RootResponse {
-    readonly success: boolean;
-    readonly status: number;
+import { AuthApiClient, HungryAppClient } from "node-hungryapp";
+
+async function main() {
+    const api = new AuthApiClient();
+    const loginRes = await api.login({
+        email: 'email',
+        password: 'password'
+    });
+
+    if (!loginRes.success) throw new Error('[Api Error] Success failed');
+
+    const client = new HungryAppClient(loginRes.result);
+
+    const res = await client.write({
+        target: 'kart', // bcode
+        menu: '잡담',
+        title: 'Hello!',
+        contents: '<p>213</p>' // or text
+    });
 }
 
-interface ProcessFailed extends RootResponse {
-    readonly success: false;
-}
-
-interface ProcessSuccessValid<T> extends RootResponse {
-    readonly success: true;
-    readonly result: T;
-}
-
-interface ProcessSuccessVoid extends RootResponse {
-    readonly success: true;
-}
-
-export type ProcessResponse<T = void> =
-    Promise<ProcessFailed | ( T extends void ? ProcessSuccessVoid : ProcessSuccessValid<T> )>;
-
-export * from './request-client';
-export * from './status';
+main();

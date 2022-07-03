@@ -46,7 +46,7 @@ export class AuthApiClient {
             return { success: false, status: InternalApiStatus.NOT_SUPPORT_LOGIN_TYPE }
         }
 
-        await this.client.request(
+        const res = await this.client.request(
             'POST',
             '/join/loginProc.php',
             {

@@ -1,0 +1,6 @@
+example/
+node_modules/
+src/
+tsconfig.json
+.idea/
+test/

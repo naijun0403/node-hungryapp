@@ -2,9 +2,19 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "ES2018",
-    "sourceMap": true
+    "sourceMap": true,
+    "outDir": "./dist",
+    "declaration": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
   },
+  "include": [
+    "src/**/*"
+  ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist",
+    "example",
+    "**/node_modules/*"
   ]
 }

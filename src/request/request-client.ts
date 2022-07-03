@@ -38,11 +38,12 @@ export class RequestClient {
         public host: string,
         private setCookies?: CookieJar
     ) {
-        this.jar = new CookieJar();
-        this.client = wrapper(axios.create({ jar: this.jar }));
         if (setCookies) {
             this.jar = setCookies;
+        } else {
+            this.jar = new CookieJar();
         }
+        this.client = wrapper(axios.create({ jar: this.jar }));
     }
 
     get url(): string {
@@ -80,8 +81,6 @@ export class RequestClient {
         if(res.status !== 200) {
             throw new Error(`Web request failed with status: ${res.status} ${res.statusText}`);
         }
-
-        console.log(res)
 
         return res.data;
     }

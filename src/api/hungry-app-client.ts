@@ -24,7 +24,7 @@
 
 import * as thoughCookie from 'tough-cookie'
 import {getWritingDataByObject, WritingObject} from "../app/wrtie";
-import {RequestClient} from "../request";
+import {ProcessResponse, RequestClient} from "../request";
 import {DefaultConfig} from "../config";
 import {CookiesUtil} from "../cookies/cookies-util";
 
@@ -39,7 +39,7 @@ export class HungryAppClient {
         this.client = new RequestClient('https', DefaultConfig.host, userCookie);
     }
 
-    async write(data: WritingObject) {
+    async write(data: WritingObject): ProcessResponse {
         const formData = getWritingDataByObject(data);
 
         const res = await this.client.request(
@@ -48,16 +48,14 @@ export class HungryAppClient {
             formData,
             {
                 Accept: 'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01',
-                Referer: 'http://www.hungryapp.co.kr/bbs/bbs_form.php?bcode=kart&page=1',
+                Referer: 'https://www.hungryapp.co.kr/bbs/bbs_form.php?bcode=kart&page=1',
                 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.5 Safari/605.1.15',
                 'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data',
             }
         );
 
-        console.log(this.client.cookies.toJSON())
-
-        return res;
+        return { success: true, status: 0 };
     }
 
 }

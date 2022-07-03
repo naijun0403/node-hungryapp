@@ -30,6 +30,6 @@ export namespace CookiesUtil {
     }
 
     export function generateCookieString(key: string, value: string, path: string = '/') {
-        return `${key}=${value}; path=${path};`;
+        return `${key}=${value};`;
     }
 }
