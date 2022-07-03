@@ -22,10 +22,10 @@
  * SOFTWARE.
  */
 
-import { AuthApiClient, HungryAppClient } from "node-hungryapp";
+import { HungryApiService, HungryAppClient } from "node-hungryapp";
 
 async function main() {
-    const api = new AuthApiClient();
+    const api = new HungryApiService();
     const loginRes = await api.login({
         email: 'email',
         password: 'password'

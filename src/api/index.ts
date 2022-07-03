@@ -23,4 +23,3 @@
  */
 
 export * from './hungry-app-client';
-export * from './auth-api-client';

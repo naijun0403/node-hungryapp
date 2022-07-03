@@ -22,14 +22,12 @@
  * SOFTWARE.
  */
 
-import { Buffer } from 'buffer';
-import {RequestClient} from "../request";
-import {ProcessResponse} from "../request";
-import {InternalApiStatus} from "../request/status";
-import {CookieJar} from "tough-cookie";
+import {InternalApiStatus, ProcessResponse, RequestClient} from "../request";
 import {DefaultConfig} from "../config";
+import {CookieJar} from "tough-cookie";
+import {Buffer} from "buffer";
 
-export class AuthApiClient {
+export class HungryApiService {
 
     private client: RequestClient;
 
