@@ -33,7 +33,7 @@ export function getWritingDataByObject(data: WritingObject): FormData {
     formData.append('pid', '');
     formData.append('notice_chk', '');
     formData.append('tab_menu_name', data.menu);
-    formData.append('tab_menu', '001');
+    formData.append('tab_menu', data.menuId);
     formData.append('subject', data.title);
     formData.append('contents', data.contents);
 
@@ -43,6 +43,7 @@ export function getWritingDataByObject(data: WritingObject): FormData {
 export interface WritingObject {
     target: string; // bcode
     menu: string; // tab_menu_name
+    menuId: string; // tab_menu
     title: string; // subject
     contents: string;
 }

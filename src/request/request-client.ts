@@ -69,10 +69,13 @@ export class RequestClient {
 
         if(form) {
             if (form instanceof FormData) {
-                console.log(2)
                 reqData['data'] = form;
             } else {
-                reqData['data'] = qs.stringify(form as NodeJS.Dict<string>);
+                if (method === 'GET' || method === 'get') {
+                    reqData['params'] = form;
+                } else {
+                    reqData['data'] = qs.stringify(form as NodeJS.Dict<string>);
+                }
             }
         }
 

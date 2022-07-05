@@ -38,6 +38,7 @@ async function main() {
     const res = await client.write({
         target: 'kart', // bcode
         menu: '잡담',
+        menuId: '001',
         title: 'Hello!',
         contents: '<p>213</p>' // or text
     });
