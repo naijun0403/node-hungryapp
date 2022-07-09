@@ -55,7 +55,7 @@ export class HungryAppClient {
             }
         );
 
-        return { success: true, status: 0, result: String(/\d+/.exec(res)[0]) };
+        return { success: true, status: 0, result: res.match(/\d+/g)[2] };
     }
 
     async delete(data: DeletingObject): ProcessResponse {
