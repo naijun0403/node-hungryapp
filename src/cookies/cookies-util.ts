@@ -22,11 +22,13 @@
  * SOFTWARE.
  */
 
-import {Cookie, CookieJar} from "tough-cookie";
+import { CookieJar } from "tough-cookie";
 
 export namespace CookiesUtil {
     export function setAuthCookies(cookieJar: CookieJar) {
         cookieJar.setCookieSync(generateCookieString('LOGIN_YN', 'Y'), '/')
+        cookieJar.setCookieSync(generateCookieString("_cookie_boardVisit", "kart"), '/')
+        cookieJar.setCookieSync(generateCookieString("_cookie_boardVisitU", "kart"), "/")
     }
 
     export function generateCookieString(key: string, value: string, path: string = '/') {

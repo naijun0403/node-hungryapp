@@ -22,28 +22,12 @@
  * SOFTWARE.
  */
 
-import { HungryApiService, HungryAppClient } from "node-hungryapp";
+export function generateSecureNumber() {
+    let value = '';
 
-async function main() {
-    const api = new HungryApiService();
-    const loginRes = await api.login({
-        email: 'email',
-        password: 'password'
-    });
+    for (let i = 0; i < 4; i++) {
+        value += Math.floor(Math.random() * 10);
+    }
 
-    if (!loginRes.success) throw new Error('[Api Error] Success failed');
-
-    const client = new HungryAppClient(loginRes.result);
-
-    const res = await client.write({
-        target: 'kart', // bcode
-        menu: '잡담',
-        menuId: '001',
-        title: 'Hello!',
-        contents: '<p>213</p>' // or text
-    });
-
-    if (!res.success) throw new Error('[App] Write Failed')
+    return value;
 }
-
-main();

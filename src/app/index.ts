@@ -23,4 +23,4 @@
  */
 
 export * from './wrtie';
-
+export * from './delete';

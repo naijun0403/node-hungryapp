@@ -23,10 +23,10 @@
  */
 
 import * as thoughCookie from 'tough-cookie'
-import {getWritingDataByObject, WritingObject} from "../app/wrtie";
-import {ProcessResponse, RequestClient} from "../request";
-import {DefaultConfig} from "../config";
-import {CookiesUtil} from "../cookies/cookies-util";
+import { getWritingDataByObject, WritingObject, DeletingObject, getDeletingDataByObject } from "../app";
+import { ProcessResponse, RequestClient } from "../request";
+import { DefaultConfig } from "../config";
+import { CookiesUtil } from "../cookies";
 
 export class HungryAppClient {
 
@@ -39,7 +39,7 @@ export class HungryAppClient {
         this.client = new RequestClient('https', DefaultConfig.host, userCookie);
     }
 
-    async write(data: WritingObject): ProcessResponse {
+    async write(data: WritingObject): ProcessResponse<string> {
         const formData = getWritingDataByObject(data);
 
         const res = await this.client.request(
@@ -48,14 +48,33 @@ export class HungryAppClient {
             formData,
             {
                 Accept: 'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01',
-                Referer: 'https://www.hungryapp.co.kr/bbs/bbs_form.php?bcode=kart&page=1',
+                Referer: `https://www.hungryapp.co.kr/bbs/bbs_form.php?bcode=${data.target}&page=1`,
                 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.5 Safari/605.1.15',
                 'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'multipart/form-data',
             }
         );
 
-        return { success: true, status: 0 };
+        return { success: true, status: 0, result: String(/\d+/.exec(res)[0]) };
+    }
+
+    async delete(data: DeletingObject): ProcessResponse {
+        const formData = getDeletingDataByObject(data);
+
+        const res = await this.client.request(
+            'POST',
+            '/bbs/bbs_upload.php',
+            formData,
+            {
+                Accept: 'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01',
+                Referer: `http://www.hungryapp.co.kr/bbs/bbs_view.php?pid=${data.pid}&bcode=${data.target}&page=1`,
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.5 Safari/605.1.15',
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'multipart/form-data',
+            }
+        );
+
+        return { success: true, status: 0 }
     }
 
 }

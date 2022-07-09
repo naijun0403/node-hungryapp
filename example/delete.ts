@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-import { HungryApiService, HungryAppClient } from "node-hungryapp";
+import {HungryApiService, HungryAppClient} from 'node-hungryapp';
 
 async function main() {
     const api = new HungryApiService();
@@ -43,7 +43,14 @@ async function main() {
         contents: '<p>213</p>' // or text
     });
 
-    if (!res.success) throw new Error('[App] Write Failed')
+    if (!res.success) throw new Error('[App Error] Write Failed');
+
+    const deleteError = await client.delete({
+        pid: res.result,
+        target: 'kart'
+    });
+
+    if (!deleteError.success) throw new Error('[App Error] Delete Failed');
 }
 
 main();
