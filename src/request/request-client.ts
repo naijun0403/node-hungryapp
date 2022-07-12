@@ -28,6 +28,7 @@ import * as qs from 'node:querystring'
 import {CookieJar} from "tough-cookie";
 import {wrapper} from "axios-cookiejar-support";
 import * as FormData from 'form-data'
+import {ProcessResponse} from "./";
 
 export class RequestClient {
     private readonly jar: CookieJar;
@@ -63,29 +64,33 @@ export class RequestClient {
         path: string,
         form?: Record<string, unknown> | FormData,
         headers?: Record<string, string>
-    ): Promise<string> {
-        const reqData = this.build(method, headers);
-        reqData['url'] = this.getApiURL(path);
+    ): ProcessResponse<string> {
+        try {
+            const reqData = this.build(method, headers);
+            reqData['url'] = this.getApiURL(path);
 
-        if(form) {
-            if (form instanceof FormData) {
-                reqData['data'] = form;
-            } else {
-                if (method === 'GET' || method === 'get') {
-                    reqData['params'] = form;
+            if(form) {
+                if (form instanceof FormData) {
+                    reqData['data'] = form;
                 } else {
-                    reqData['data'] = qs.stringify(form as NodeJS.Dict<string>);
+                    if (method === 'GET' || method === 'get') {
+                        reqData['params'] = form;
+                    } else {
+                        reqData['data'] = qs.stringify(form as NodeJS.Dict<string>);
+                    }
                 }
             }
+
+            const res = await this.client.request(reqData);
+
+            if(res.status !== 200) {
+                return { success: false, status: res.status }
+            }
+
+            return { success: true, status: res.status, result: res.data };
+        } catch (e) {
+            return { success: false, status: -100 };
         }
-
-        const res = await this.client.request(reqData);
-
-        if(res.status !== 200) {
-            throw new Error(`Web request failed with status: ${res.status} ${res.statusText}`);
-        }
-
-        return res.data;
     }
 
     async requestData<T = Record<string, unknown>>(
@@ -95,7 +100,12 @@ export class RequestClient {
         headers?: Record<string, string>
     ): Promise<T> {
         const res = await this.request(method, path, form, headers);
-        return JSON.parse(res);
+
+        if (!res.success) {
+            throw new Error(`Web Request Error with status: ${res.status}`);
+        }
+
+        return JSON.parse(res.result);
     }
 
     private build(method: Method, header?: Record<string, string>): AxiosRequestConfig {

@@ -55,7 +55,9 @@ export class HungryAppClient {
             }
         );
 
-        return { success: true, status: 0, result: res.match(/\d+/g)[2] };
+        if (!res.success) return { success: false, status: res.status }
+
+        return { success: true, status: 0, result: res.result.match(/\d+/g)[2] };
     }
 
     async delete(data: DeletingObject): ProcessResponse {
@@ -73,6 +75,8 @@ export class HungryAppClient {
                 'Content-Type': 'multipart/form-data',
             }
         );
+
+        if (!res.success) return { success: false, status: res.status }
 
         return { success: true, status: 0 }
     }

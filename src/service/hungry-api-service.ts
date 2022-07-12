@@ -59,7 +59,9 @@ export class HungryApiService {
                 Origin: 'https://www.hungryapp.co.kr',
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
-        )
+        );
+
+        if (!res.success) return { success: false, status: res.status };
 
         return { success: true, status: 0, result: this.client.cookies };
     }
