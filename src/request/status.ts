@@ -24,4 +24,5 @@
 
 export enum InternalApiStatus {
     NOT_SUPPORT_LOGIN_TYPE = -431,
+    SERVER_ERROR = -403
 }

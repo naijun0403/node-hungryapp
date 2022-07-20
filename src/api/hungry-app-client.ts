@@ -24,7 +24,7 @@
 
 import * as thoughCookie from 'tough-cookie'
 import { getWritingDataByObject, WritingObject, DeletingObject, getDeletingDataByObject } from "../app";
-import { ProcessResponse, RequestClient } from "../request";
+import {InternalApiStatus, ProcessResponse, RequestClient} from "../request";
 import { DefaultConfig } from "../config";
 import { CookiesUtil } from "../cookies";
 
@@ -57,7 +57,13 @@ export class HungryAppClient {
 
         if (!res.success) return { success: false, status: res.status }
 
-        return { success: true, status: 0, result: res.result.match(/OnConfirmInsertBox\((.*)\)/s)[1] };
+        const pid = res.result.match(/OnConfirmInsertBox\((.*)\)/s);
+
+        if (pid === null) {
+            return { success: false, status: InternalApiStatus.SERVER_ERROR };
+        }
+
+        return { success: true, status: 0, result: pid[1] };
     }
 
     async delete(data: DeletingObject): ProcessResponse {
