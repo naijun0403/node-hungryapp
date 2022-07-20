@@ -57,7 +57,7 @@ export class HungryAppClient {
 
         if (!res.success) return { success: false, status: res.status }
 
-        return { success: true, status: 0, result: res.result.match(/\d+/g)[2] };
+        return { success: true, status: 0, result: res.result.match(/OnConfirmInsertBox\((.*)\)/s)[1] };
     }
 
     async delete(data: DeletingObject): ProcessResponse {
